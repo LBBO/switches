@@ -10,47 +10,83 @@ export default class Gameboard extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			tiles: []
+			tiles: [],
+			isRunning: false,
+			activeTiles: 0
 		};
 
-		
-		
+
+
 		this.init = this.init.bind(this);
 		this.start = this.start.bind(this);
-		
+
 		this.init();
 	}
-	
+
 	init() {
-		for(let i = 0; i < 5; i++) {
+		this.state.isRunning = false;
+		this.state.tiles = [];
+
+		for (let i = 0; i < 5; i++) {
 			let row = [];
-			for(let j = 0; j < 5; j++) {
+			for (let j = 0; j < 5; j++) {
 				row.push(false);
 			}
 			this.state.tiles.push(row);
 		}
+	}
 
+	start() {
 		const randomInitialSetup = initialConstillationsOfActiveFields[Math.round(Math.random() * 2)];
 
-		for(let i = 0; i < randomInitialSetup.length; i++) {
+		for (let i = 0; i < randomInitialSetup.length; i++) {
 			const rowIndex = randomInitialSetup[i][0];
 			const colIndex = randomInitialSetup[i][1];
 			this.state.tiles[rowIndex][colIndex] = true;
 		}
+
+		this.state.activeTiles = randomInitialSetup.length;
+		this.state.isRunning = true;
+		this.setState(this.state);
 	}
-	
-	start() {
-		
+
+	checkWin() {
+		if(this.state.activeTiles === Math.pow(this.state.tiles.length, 2)) {
+			this.state.isRunning = false;
+			this.props.onWin();
+		}
 	}
-	
+
+	onTileClick(index) {
+		const rowIndex = Math.floor(index / this.state.tiles.length);
+		const colIndex = index % this.state.tiles.length;
+
+		for (let i = -1; i <= 1; i++) {
+			if (rowIndex + i >= 0 && rowIndex + i < 5) {
+				this.state.tiles[rowIndex + i][colIndex] = !this.state.tiles[rowIndex + i][colIndex];
+				this.state.activeTiles += this.state.tiles[rowIndex + i][colIndex] ? 1 : -1;
+			}
+
+			//i may not be 0 because otherwise the clicked tile would be switched twice
+			if (colIndex + i >= 0 && colIndex + i < 5 && i !== 0) {
+				this.state.tiles[rowIndex][colIndex + i] = !this.state.tiles[rowIndex][colIndex + i];
+				this.state.activeTiles += this.state.tiles[rowIndex][colIndex + i] ? 1 : -1;
+			}
+		}
+
+		this.props.onMove();
+		this.checkWin();
+		this.setState(this.state);
+	}
+
 	render() {
 		return (
 			<div className={"wrapper"}>
 				{
 					this.state.tiles
 						.reduce((acc, row) => acc.concat(row))
-						.map((tile, index) => 
-							<div key={index} className={tile ? 'active' : 'inactive'}>
+						.map((tile, index) =>
+							<div key={index} className={tile ? 'active' : 'inactive'} onClick={() => this.onTileClick(index)} >
 
 							</div>
 						)

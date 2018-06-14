@@ -16,10 +16,9 @@ html, body {
             width: 500px;
             height: 500px;
             grid-gap: 20px;
+            background-color: #ECECEE;
             
             &.gameIsNotRunning {
-                background-color: #ECECEE;
-                
                 .header {
                     grid-template-columns: auto;
                     grid-template-rows: auto;
@@ -28,20 +27,31 @@ html, body {
             }
             
             &.gameIsRunning {
-                background-color: #8A85BD;
-                
                 .header {
                     grid-template-columns: 100px auto 100px;
                     grid-template-rows: auto;
                     grid-template-areas: ". title abort";
+                }
+                    
+                &:not(.gameIsWon) .wrapper {
+                    div {
+                        cursor: pointer;
+                    }
+                }
+            }
+            
+            &.gameIsWon {
+                .header {
+                    grid-template-columns: 100px auto 100px;
+                    grid-template-rows: auto;
+                    grid-template-areas: ". title abort";
+                }
                     
                     .wrapper {
                         div {
-                            border-right-color: #746FA7;
-                            border-bottom-color: #746FA7;
+                            background-color: #73dce6 !important;
                         }
                     }
-                }
             }
             
             .header, .footer {
@@ -116,7 +126,6 @@ html, body {
                     place-content: center;
                     font-weight: 900;
                     font-size: 4em;
-                    cursor: pointer;
                     
                     &.active {
                         background-color: #8A85BD;
