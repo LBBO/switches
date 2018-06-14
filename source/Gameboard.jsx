@@ -12,7 +12,8 @@ export default class Gameboard extends React.Component {
 		this.state = {
 			tiles: [],
 			isRunning: false,
-			activeTiles: 0
+			activeTiles: 0,
+			isWon: false
 		};
 
 
@@ -24,8 +25,10 @@ export default class Gameboard extends React.Component {
 	}
 
 	init() {
+		console.log('restart');
 		this.state.isRunning = false;
 		this.state.tiles = [];
+		this.state.isWon = false;
 
 		for (let i = 0; i < 5; i++) {
 			let row = [];
@@ -51,32 +54,35 @@ export default class Gameboard extends React.Component {
 	}
 
 	checkWin() {
-		if(this.state.activeTiles === Math.pow(this.state.tiles.length, 2)) {
+		if (this.state.activeTiles === Math.pow(this.state.tiles.length, 2)) {
 			this.state.isRunning = false;
+			this.state.isWon = true;
 			this.props.onWin();
 		}
 	}
 
 	onTileClick(index) {
-		const rowIndex = Math.floor(index / this.state.tiles.length);
-		const colIndex = index % this.state.tiles.length;
+		if(this.state.isRunning && !this.state.isWon) {
+			const rowIndex = Math.floor(index / this.state.tiles.length);
+			const colIndex = index % this.state.tiles.length;
 
-		for (let i = -1; i <= 1; i++) {
-			if (rowIndex + i >= 0 && rowIndex + i < 5) {
-				this.state.tiles[rowIndex + i][colIndex] = !this.state.tiles[rowIndex + i][colIndex];
-				this.state.activeTiles += this.state.tiles[rowIndex + i][colIndex] ? 1 : -1;
+			for (let i = -1; i <= 1; i++) {
+				if (rowIndex + i >= 0 && rowIndex + i < 5) {
+					this.state.tiles[rowIndex + i][colIndex] = !this.state.tiles[rowIndex + i][colIndex];
+					this.state.activeTiles += this.state.tiles[rowIndex + i][colIndex] ? 1 : -1;
+				}
+
+				//i may not be 0 because otherwise the clicked tile would be switched twice
+				if (colIndex + i >= 0 && colIndex + i < 5 && i !== 0) {
+					this.state.tiles[rowIndex][colIndex + i] = !this.state.tiles[rowIndex][colIndex + i];
+					this.state.activeTiles += this.state.tiles[rowIndex][colIndex + i] ? 1 : -1;
+				}
 			}
 
-			//i may not be 0 because otherwise the clicked tile would be switched twice
-			if (colIndex + i >= 0 && colIndex + i < 5 && i !== 0) {
-				this.state.tiles[rowIndex][colIndex + i] = !this.state.tiles[rowIndex][colIndex + i];
-				this.state.activeTiles += this.state.tiles[rowIndex][colIndex + i] ? 1 : -1;
-			}
+			this.props.onMove();
+			this.checkWin();
+			this.setState(this.state);
 		}
-
-		this.props.onMove();
-		this.checkWin();
-		this.setState(this.state);
 	}
 
 	render() {

@@ -54,6 +54,7 @@ export default class App extends Component {
   startGame() {
     this.state.gameIsRunning = true;
     this.state.gameIsWon = false;
+    this.state.movesMade = 0;
     this.state.gameBoard.start();
     this.setState(this.state);
   }
