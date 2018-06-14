@@ -21,34 +21,37 @@ export default class App extends Component {
 
   renderTitle() {
     return (
-			<div className="header">
-				<span className="title">{
-          this.state.gameIsWon ? 'VICTORY' : (this.state.gameIsRunning ? 'TAP A TILE' : 'SWITCHES')
-        }</span>
-				{/* {this.state.gameIsRunning ? <span className="abort" onClick={this.abort}>ABORT</span> : null} */}
-				{
-          this.state.gameIsWon ? 
+      <div className="header">
+        <span className="title">
+          {
+            this.state.gameIsWon ? 'VICTORY' : (this.state.gameIsRunning ? 'TAP A SWITCH' : 'SWITCHES')
+          }
+        </span>
+        {
+          //if game is won, display RESTART button. otherwise display ABORT button if game is at least running and nothing otherwise
+          this.state.gameIsWon ?
             <span className="abort" onClick={this.restart}>RESTART</span> :
             (this.state.gameIsRunning ? <span className="abort" onClick={this.abort}>ABORT</span> : null)
         }
-			</div>
-		);
+      </div>
+    );
   }
 
   renderFooter() {
+    //if game was not started yet or if it was aborted, display button to start game. otherwise display amount of switches flipped so far
     if (!this.state.gameIsRunning) {
-			return (
-				<div className="footer">
-					<span className="newGame" onClick={this.startGame}>NEW GAME</span>
-				</div>
-			);
-		} else {
-			return (
-				<div className="footer">
-					<span className="moveCounter">{this.state.movesMade} BUTTONS PRESSED</span>
-				</div>
-			);
-		}
+      return (
+        <div className="footer">
+          <span className="newGame" onClick={this.startGame}>NEW GAME</span>
+        </div>
+      );
+    } else {
+      return (
+        <div className="footer">
+          <span className="moveCounter">{this.state.movesMade} BUTTONS PRESSED</span>
+        </div>
+      );
+    }
   }
 
   startGame() {
@@ -79,16 +82,17 @@ export default class App extends Component {
   render() {
     return (
       <div className={'game ' + (this.state.gameIsRunning ? 'gameIsRunning' : 'gameIsNotRunning') + (this.state.gameIsWon ? ' gameIsWon' : '')}>
-				{this.renderTitle()}
-				<Gameboard
-          ref={gameBoard => this.state.gameBoard = gameBoard}
-          onMove={() => {this.state.movesMade++; this.setState(this.state)}}
-          onWin={this.win}
-				>
+        {this.renderTitle()}
 
-				</Gameboard>
-				{this.renderFooter()}
-			</div>
+        <Gameboard
+          ref={gameBoard => this.state.gameBoard = gameBoard}
+          onMove={() => { this.state.movesMade++; this.setState(this.state) }}
+          onWin={this.win}
+        >
+        </Gameboard>
+        
+        {this.renderFooter()}
+      </div>
     )
   }
 }

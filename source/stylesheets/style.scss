@@ -47,11 +47,11 @@ html, body {
                     grid-template-areas: ". title abort";
                 }
                     
-                    .wrapper {
-                        div {
-                            background-color: #73dce6 !important;
-                        }
+                .wrapper {
+                    div {
+                        background-color: #73dce6 !important;
                     }
+                }
             }
             
             .header, .footer {
@@ -91,35 +91,25 @@ html, body {
                     border-radius: 50px;
                     cursor: pointer;
                 }
-                
-                .userTurn {
-                    display: grid;
-                    grid-template-rows: auto;
-                    grid-template-columns: auto auto;
-                    place-items: center;
-                }
-                
-                svg {
-                    width: 40px;
-                    height: 40px;
-                }
             }
             
             .wrapper {
+                $borderAroundSwitches: 8px;
+                $amountOfSwitchesPerRow: 5;
+                $sideLength: 55px * $amountOfSwitchesPerRow + $borderAroundSwitches * ($amountOfSwitchesPerRow - 1);
+
                 display: grid;
-                grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-                grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+                grid-template-columns: repeat($amountOfSwitchesPerRow, 1fr);
+                grid-template-rows: repeat($amountOfSwitchesPerRow, 1fr);
                 place-items: center;
-                width: calc(55px * 5 + 10px * 4);
-                height: calc(55px * 5 + 10px * 4);
+                width: $sideLength;
+                height: $sideLength;
                 overflow: hidden;
-                grid-gap: 10px;
-                // border: 10px solid #000;//#E7E7EA;
+                grid-gap: $borderAroundSwitches;
                 background-color: #E7E7EA;
-                padding: 10px;
+                padding: $borderAroundSwitches;
                 
                 div {
-                    // border: 10px solid #000;//#E7E7EA;
                     width: 100%;
                     height: 100%;
                     display: grid;
@@ -130,7 +120,6 @@ html, body {
                     &.active {
                         background-color: #8A85BD;
                     }
-                    font-size: 4em;
                     
                     &.inactive {
                         background-color: #ECECEE;
