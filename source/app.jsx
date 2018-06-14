@@ -6,7 +6,8 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      gameIsRunning: false
+      gameIsRunning: false,
+      movesMade: 0
     }
 
     this.renderTitle = this.renderTitle.bind(this);
@@ -17,11 +18,28 @@ export default class App extends Component {
   }
 
   renderTitle() {
-
+    return (
+			<div className="header">
+				<span className="title">SWITCHES</span>
+				{this.state.gameIsRunning ? <span className="abort" onClick={this.abort}>ABORT</span> : null}
+			</div>
+		);
   }
 
   renderFooter() {
-
+    if (!this.state.gameIsRunning) {
+			return (
+				<div className="footer">
+					<span className="newGame" onClick={this.startGame}>NEW GAME</span>
+				</div>
+			);
+		} else {
+			return (
+				<div className="footer">
+					<span className="moveCounter">{this.state.movesMade} BUTTONS PRESSED</span>
+				</div>
+			);
+		}
   }
 
   abort() {
