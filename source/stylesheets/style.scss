@@ -33,9 +33,15 @@ html, body {
                     grid-template-areas: ". title abort";
                 }
                     
-                &:not(.gameIsWon) .wrapper {
-                    div {
-                        cursor: pointer;
+                &:not(.gameIsWon) {
+                    .wrapper {
+                        div {
+                            cursor: pointer;
+                    
+                            &.active {
+                                background-color: #8A85BD;
+                            }
+                        }
                     }
                 }
             }
@@ -116,14 +122,7 @@ html, body {
                     place-content: center;
                     font-weight: 900;
                     font-size: 4em;
-                    
-                    &.active {
-                        background-color: #8A85BD;
-                    }
-                    
-                    &.inactive {
-                        background-color: #ECECEE;
-                    }
+                    background-color: #ECECEE;
                 }
             }
         }
