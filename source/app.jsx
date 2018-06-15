@@ -82,12 +82,8 @@ export default class App extends Component {
       this.state.gameIsWon = this.state.inactiveSwitches === 0;
   }
 
-  onSwitchFlip(index) {
+  onSwitchFlip(rowIndex, colIndex) {
     this.state.movesMade++;
-
-    //calculate row and col of switch that was clicked on
-    const rowIndex = Math.floor(index / this.state.switches.length);
-    const colIndex = index % this.state.switches.length;
 
     //iterates over the clicked switch and it's neighbors independently from all axes
     for (let i = -1; i <= 1; i++) {
@@ -122,7 +118,7 @@ export default class App extends Component {
         </Header>
 
         <Gameboard
-          onMove={index => { this.onSwitchFlip(index) }}
+          onMove={this.onSwitchFlip}
           onWin={this.checkForWin}
           disable={!this.state.gameIsRunning || this.state.gameIsWon}
           switches={this.state.switches}
