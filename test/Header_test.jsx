@@ -56,37 +56,44 @@ describe("Header component", () => {
 
   it("Should forward clicks made to abort", () => {
 	const wrapper = mount(<Header />);
-	const spy = sinon.spy();
+	const restartSpy = sinon.spy();
+	const abortSpy = sinon.spy();
 	wrapper.setProps({
 		gameIsRunning: true,
 		gameIsWon: false,
-		onAbort: spy
+		onAbort: abortSpy,
+		onRestart: restartSpy
 	});
 	wrapper.find('.abort').simulate('click');
 
-	expect(spy).to.have.been.called;
+	expect(abortSpy).to.have.been.called;
+	expect(restartSpy).to.not.have.been.called;
   });
 
   it("Should forward clicks made to restart", () => {
 	const wrapper = mount(<Header />);
-	const spy = sinon.spy();
+	const restartSpy = sinon.spy();
+	const abortSpy = sinon.spy();
 	wrapper.setProps({
 		gameIsRunning: true,
 		gameIsWon: true,
-		onRestart: spy
+		onAbort: abortSpy,
+		onRestart: restartSpy
 	});
 	wrapper.find('.abort').simulate('click');
 
-	expect(spy).to.have.been.calledOnce;
+	expect(restartSpy).to.have.been.calledOnce;
+	expect(abortSpy).to.not.have.been.called;
 
 
 	wrapper.setProps({
 		gameIsRunning: false,
 		gameIsWon: true,
-		onRestart: spy
+		onRestart: restartSpy
 	});
 	wrapper.find('.abort').simulate('click');
 
-	expect(spy).to.have.been.calledTwice;
+	expect(restartSpy).to.have.been.calledTwice;
+	expect(abortSpy).to.not.have.been.called;
   });
 });

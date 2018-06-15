@@ -7,3 +7,4 @@ Enzyme.configure({ adapter: new Adapter() })
 // You can list more individual test files here:
 require("app_test");
 require("Header_test");
+require("Footer_test");
