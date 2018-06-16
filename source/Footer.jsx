@@ -10,13 +10,13 @@ export default class Header extends React.Component {
 				</div>
 			);
 		} else {
-			let buttonsPressed = 0;
-			if(this.props.buttonsPressed && typeof this.props.buttonsPressed === 'number' && this.props.buttonsPressed >= 0) {
-				buttonsPressed = this.props.buttonsPressed;
+			let movesMade = 0;
+			if(this.props.movesMade && typeof this.props.movesMade === 'number' && this.props.movesMade >= 0) {
+				movesMade = this.props.movesMade;
 			}
 			return (
 				<div className="footer">
-					<span className="moveCounter">{buttonsPressed} BUTTONS PRESSED</span>
+					<span className="moveCounter">{movesMade} BUTTONS PRESSED</span>
 				</div>
 			);
 		}
