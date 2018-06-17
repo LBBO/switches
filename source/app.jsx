@@ -3,15 +3,15 @@ import Gameboard from "./Gameboard";
 import Header from "./Header";
 import Footer from "./Footer";
 
-const startingPatterns = [
-  [[1, 1], [2, 1], [3, 1], [1, 2], [3, 2], [1, 3], [2, 3], [3, 3]],
-  [[0, 0], [0, 4], [1, 1], [1, 3], [2, 2], [3, 3], [3, 1], [4, 4], [4, 0]],
-  [[0, 2], [1, 1], [1, 3], [2, 0], [2, 2], [2, 4], [3, 1], [3, 3], [4, 2]]
-];
-
 export default class App extends Component {
   constructor(props) {
     super(props);
+
+    this.startingPatterns = [
+      [[1, 1], [2, 1], [3, 1], [1, 2], [3, 2], [1, 3], [2, 3], [3, 3]],
+      [[0, 0], [0, 4], [1, 1], [1, 3], [2, 2], [3, 3], [3, 1], [4, 4], [4, 0]],
+      [[0, 2], [1, 1], [1, 3], [2, 0], [2, 2], [2, 4], [3, 1], [3, 3], [4, 2]]
+    ];
 
     this.state = {
       gameIsRunning: false,
@@ -50,7 +50,7 @@ export default class App extends Component {
     }
     
     //set switches to randomly chosen starting pattern and update inactiveSwitches
-    const randomStartingPattern = startingPatterns[Math.round(Math.random() * 2)];
+    const randomStartingPattern = this.startingPatterns[Math.round(Math.random() * 2)];
 
     for (let i = 0; i < randomStartingPattern.length; i++) {
       const rowIndex = randomStartingPattern[i][0];
@@ -119,7 +119,6 @@ export default class App extends Component {
 
         <Gameboard
           onMove={this.onSwitchFlip}
-          onWin={this.checkForWin}
           disable={!this.state.gameIsRunning || this.state.gameIsWon}
           switches={this.state.switches}
         >
