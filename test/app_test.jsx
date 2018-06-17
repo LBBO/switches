@@ -7,7 +7,7 @@ import sinonChai from "sinon-chai";
 const expect = chai.expect;
 chai.use(sinonChai);
 
-describe.only("App component", () => {
+describe("App component", () => {
 	let app;
 
 	beforeEach(() => {
